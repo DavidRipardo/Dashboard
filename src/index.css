@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+  
+ /* Esconde o checkbox padrão */
+.custom-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid #ddd;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+
+/* Estilo do checkbox quando está marcado */
+.custom-checkbox:checked {
+  background-color: #7c3aed; /* Fundo roxo */
+  border-color: #7c3aed; /* Borda roxa */
+}
+
+/* Exibe o símbolo de check */
+.custom-checkbox:checked::after {
+  content: '✔';
+  font-size: 1rem;
+  color: #fff; /* Cor branca para o check */
+  display: block;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+/* Estilo ao focar */
+.custom-checkbox:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.5); /* roxo com transparência */
+}
+
