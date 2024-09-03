@@ -148,6 +148,16 @@ export const ClientesTable: React.FC = () => {
     setDropdownOpen((prev) => (prev === email ? null : email));
   };
 
+  const handleActivateUser = (email: string) => {
+    setUsers(
+      users.map((user) =>
+        user.email === email ? { ...user, status: "Ativo" } : user
+      )
+    );
+    setDropdownOpen(null);
+  };
+  
+
   return (
     <Box p={4}>
       <Input
@@ -279,42 +289,47 @@ export const ClientesTable: React.FC = () => {
                   </Button>
                 </Tooltip>
                 {dropdownOpen === user.email && (
-                  <div className="absolute bg-white border border-gray-300 shadow-lg mt-2 rounded-md">
-                    <Button
-                      onClick={() => handleEditUser(user)}
-                      leftIcon={<FaEdit />}
-                      variant="link"
-                      color="#5867dd"
-                      _hover={{ color: "#374bae" }}
-                      w="full"
-                      textAlign="left"
-                    >
-                      Editar
-                    </Button>
-                    <Button
-                      onClick={() => handleDeactivateUser(user.email)}
-                      leftIcon={<FaTrash />}
-                      variant="link"
-                      color="#5867dd"
-                      _hover={{ color: "#374bae" }}
-                      w="full"
-                      textAlign="left"
-                    >
-                      Desativar
-                    </Button>
-                    <Button
-                      onClick={() => handleDeleteUser(user.email)}
-                      leftIcon={<FaTrash />}
-                      variant="link"
-                      color="#5867dd"
-                      _hover={{ color: "#374bae" }}
-                      w="full"
-                      textAlign="left"
-                    >
-                      Excluir
-                    </Button>
-                  </div>
-                )}
+  <div className="absolute mt-2 right-0 w-48 bg-white text-left border border-gray-300 rounded shadow-lg z-50">
+    <Button
+      onClick={() => handleEditUser(user)}
+      leftIcon={<FaEdit />}
+      variant="ghost"
+      colorScheme="purple"
+      className="w-full text-left px-2 py-2"
+    >
+      Editar
+    </Button>
+    {user.status === "Ativo" ? (
+      <Button
+        onClick={() => handleDeactivateUser(user.email)}
+        variant="ghost"
+        colorScheme="purple"
+        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+      >
+        Desativar usuário
+      </Button>
+    ) : (
+      <Button
+        onClick={() => handleActivateUser(user.email)}
+        variant="ghost"
+        colorScheme="purple"
+        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+      >
+        Ativar usuário
+      </Button>
+    )}
+    <Button
+      onClick={() => handleDeleteUser(user.email)}
+      leftIcon={<FaTrash />}
+      variant="ghost"
+      colorScheme="red"
+      className="w-full text-left px-4 py-2 hover:bg-gray-100"
+    >
+      Excluir
+    </Button>
+  </div>
+)}
+
               </td>
             </tr>
           ))}
