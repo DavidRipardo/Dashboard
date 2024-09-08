@@ -1,3 +1,4 @@
+import { useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 
 // Importação das imagens para os ícones
@@ -9,19 +10,37 @@ import imgtarefas from "/src/assets/finalizadas.png";
 import imgFuncionario from "/src/assets/funcionario.png";
 import imgTarefas from "/src/assets/tarefas.png";
 import imgLogout from "/src/assets/logout.png";
+import { FiMenu, FiX } from "react-icons/fi";
+import {AuthContext} from '../context/AuthContext'
 
-// Definição das props esperadas pelo componente Navbar
 interface NavbarProps {
   filter: string;
   setFilter: (filter: string) => void;
 }
+
 export function Navbar({ setFilter }: NavbarProps) {
-  useParams<{ id: string }>(); // Tipagem do parâmetro da rota
+  useParams<{ id: string }>();
+
+  const {logoutUser} = useContext(AuthContext);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <aside className="fixed my-2 ml-1 w-[16%]">
-      <nav className="rounded-3xl bg-lilac-300 flex flex-col text-white py-2">
-        {/* Cabeçalho do Sidebar com o logo e o título */}
+    <aside className="fixed my-2 ml-1 w-[16%] z-50">
+      <div className="md:hidden rounded-2xl  w-14 flex justify-between items-center bg-lilac-300 p-4">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-white items-center text-2xl"
+        >
+          {isOpen ? <FiX /> : <FiMenu />} {/* Alterna o ícone */}
+        </button>
+      </div>
+      
+      <nav
+        className={`rounded-3xl bg-lilac-300 flex flex-col text-white py-2 md:py-4 transition-transform transform md:block ${
+          isOpen ? "block" : "hidden"
+        }`}
+      >
         <div className="flex items-center px-8 gap-2 mb-5">
           <img className="size-9" src={imgLogo} alt="Admin Panel Icon" />
           <h1 className="font-bold text-left leading-tight text-base">
@@ -29,7 +48,6 @@ export function Navbar({ setFilter }: NavbarProps) {
           </h1>
         </div>
 
-        {/* Seção do Monitoramento */}
         <Link
           to={`/dashboard/`}
           className="flex mx-3 items-center gap-3.5 p-1.5 mb-2 text-base text-white hover:bg-lilac-500 focus:bg-lilac-500 rounded-lg hover:shadow-lg hover:transition ease-in-out duration-300"
@@ -42,7 +60,6 @@ export function Navbar({ setFilter }: NavbarProps) {
           <span className="pr-14">Monitoramentos</span>
         </Link>
 
-        {/* Seção de Pessoas com seus respectivos itens */}
         <h2 className="font-nunito text-base font-semibold mb-1 uppercase px-4">
           Pessoas
         </h2>
@@ -82,7 +99,6 @@ export function Navbar({ setFilter }: NavbarProps) {
           <span>Funcionários</span>
         </Link>
 
-        {/* Seção de Tarefas com seus respectivos itens */}
         <h2 className="font-nunito text-base mb-1 font-semibold uppercase px-4">
           Tarefas
         </h2>
@@ -99,7 +115,7 @@ export function Navbar({ setFilter }: NavbarProps) {
           <span>Todas</span>
         </Link>
         <Link
-        to={`/finalizadas/`}
+          to={`/finalizadas/`}
           onClick={() => setFilter("in-progress")}
           className="flex items-center text-base mx-3 gap-3.5 p-1.5 mb-2.5 text-white hover:bg-lilac-500 rounded-lg hover:shadow-lg hover:transition ease-in-out duration-300"
         >
@@ -123,7 +139,6 @@ export function Navbar({ setFilter }: NavbarProps) {
           <span>Em andamento</span>
         </Link>
 
-        {/* Seção de Cargos */}
         <h2 className="font-nunito text-base mb-1 font-semibold uppercase px-4">
           Cargos
         </h2>
@@ -140,9 +155,9 @@ export function Navbar({ setFilter }: NavbarProps) {
           <span>Cargos</span>
         </Link>
 
-        {/* Item de Logout no final do Sidebar */}
         <Link
-          to={"/"}
+          onClick={logoutUser}
+          
           className="flex items-center gap-3.5 mx-3 pl-3 w-68 p-1.5 text-base ml-1.5 mt-[39%] text-white rounded-lg hover:bg-lilac-500 hover:shadow-lg hover:transition ease-in-out duration-300"
         >
           <img

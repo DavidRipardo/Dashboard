@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from "react";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import imglogin from "/src/assets/login.png";
 import imglogo from "/src/assets/logo.png";
 import imgesqueceusenha from "/src/assets/esqueceusenha.png";
-import 'remixicon/fonts/remixicon.css'; // Importa a biblioteca RemixIcon
+import "remixicon/fonts/remixicon.css";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import {useNavigate} from 'react-router-dom'
 
 export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("") ;
+  const [password, setPassword] = useState("");
+  const {loginUser, isAutenticado} = useContext(AuthContext);
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAutenticado || localStorage.getItem('token')) {
+      navigate("/dashboard", {replace: true});
+    }
+  }, [isAutenticado, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await loginUser({email, password});
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -28,6 +50,7 @@ export const Login: React.FC = () => {
         </section>
         <section className="flex flex-col w-full text-[#5867DD] font-normal p-[20px_0]">
           <form
+            onSubmit={handleSubmit}
             className="flex relative justify-center text-center items-center top-[15%] right-[35%] w-[400px] gap-2.5 max-w-full flex-col p-[20px_0] md:mt-[40px] md:p-[0_20px]"
           >
             <header className="text-center justify-center">
@@ -47,25 +70,29 @@ export const Login: React.FC = () => {
                 Faça login para entrar no dashboard.
               </p>
             </header>
-        
-            <div className="w-[23vw] mt-6"> 
+
+            <div className="w-[23vw] mt-6">
               <div className="relative p-4">
                 <input
                   id="email"
                   type="email"
                   placeholder="Usuário"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-3 py-2 pl-10 border border-lilac-500 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-lilac-300 placeholder:text-lilac-500"
                 />
                 <i className="ri-user-3-line absolute left-7 text-xl top-1/2 transform -translate-y-1/2 text-lilac-500"></i>
               </div>
             </div>
-            
-            <div className="w-[21vw]"> 
+
+            <div className="w-[21vw]">
               <div className="relative">
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-3 py-2 pl-10 border border-lilac-500 rounded-3xl shadow-sm focus:outline-none focus:ring-2 focus:ring-lilac-300 placeholder:text-lilac-500"
                 />
                 <i className="ri-lock-line absolute left-3 text-xl top-1/2 transform -translate-y-1/2 text-lilac-500"></i>
@@ -84,11 +111,10 @@ export const Login: React.FC = () => {
             </div>
 
             <div className="flex items-center pr-[200px] gap-2 mt-1.5 mb-2">
-              <input
-                type="checkbox"
-                className="w-4 h-4"
-              />
-              <label className="text-black text-sm font-normal">Lembrar-se</label>
+              <input type="checkbox" className="w-4 h-4" />
+              <label className="text-black text-sm font-normal">
+                Lembrar-se
+              </label>
             </div>
             <button
               type="submit"
@@ -96,7 +122,10 @@ export const Login: React.FC = () => {
             >
               ENTRAR <span className="icon-arrow"></span>
             </button>
-            <a href="#" className="flex items-center justify-center gap-2 no-underline text-[#5867DD] text-sm font-normal">
+            <a
+              href="#"
+              className="flex items-center justify-center gap-2 no-underline text-[#5867DD] text-sm font-normal"
+            >
               <img
                 className="w-[14px]"
                 loading="lazy"
@@ -108,12 +137,28 @@ export const Login: React.FC = () => {
           </form>
           <footer className="flex justify-between relative items-center top-[18%] md:flex-col md:gap-2.5">
             <span className="text-sm relative w-[20vw] top-[95%] right-[120%] text-[#777]">
-              <span className="highlight text-[#5867DD]">© 2024 </span> | Todos os direitos reservados
+              <span className="highlight text-[#5867DD]">© 2024 </span> | Todos
+              os direitos reservados
             </span>
             <div className="flex relative top-[30%] left-[25%]   gap-5">
-              <a href="#" className="no-underline text-[#5867DD] text-sm transition-all hover:underline">Privacidade</a>
-              <a href="#" className="no-underline text-[#5867DD] text-sm transition-all hover:underline">Termos</a>
-              <a href="#" className="no-underline text-[#5867DD] text-sm transition-all hover:underline">Contato</a>
+              <a
+                href="#"
+                className="no-underline text-[#5867DD] text-sm transition-all hover:underline"
+              >
+                Privacidade
+              </a>
+              <a
+                href="#"
+                className="no-underline text-[#5867DD] text-sm transition-all hover:underline"
+              >
+                Termos
+              </a>
+              <a
+                href="#"
+                className="no-underline text-[#5867DD] text-sm transition-all hover:underline"
+              >
+                Contato
+              </a>
             </div>
           </footer>
         </section>

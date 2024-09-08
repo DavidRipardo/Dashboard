@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "john_doe",
+      "password": "password123",
+      "name": "John Doe"
+    },
+    {
+      "id": 2,
+      "username": "jane_doe",
+      "password": "password456",
+      "name": "Jane Doe"
+    },
+    {
+      "email": "david@email.com",
+      "password": "$2a$10$yc7Xf3vaLFrmP2mA6vnAbeRdAjj4zBqvSEyYWwCZ2laJPslGJZwMq",
+      "id": 3
+    },
+    {
+      "email": "lucas@email.com",
+      "password": "$2a$10$1NN5r25ikzY5uV1Zl5Lope7eYlqd86JcfgX3ifsywLrLeWlvms096",
+      "firstname": "Lucas",
+      "lastname": "Paulo",
+      "id": 4
+    }
+  ]
+}

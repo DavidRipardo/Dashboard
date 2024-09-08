@@ -36,7 +36,7 @@ export function Dashboard() {
 	return (
 		<div className="flex gap-5">
 			<Navbar filter={filter} setFilter={setFilter} />
-			<main className="ml-[320px] pr-5">
+			<main className="flex-1 mt-9 md:ml-[305px]">
 				<Header />
 				<CardStatus totalUsers={0} totalClients={0} totalOffices={0} totalTasks={0}					// totalUsers={totalUsers}
 					// totalClients={totalClients}

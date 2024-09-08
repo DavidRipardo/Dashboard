@@ -7,7 +7,7 @@ export function Finalizadas() {
           <Navbar filter={''} setFilter={function (_filter: string): void {
                 throw new Error('Function not implemented.');
             } } />
-          <main className="ml-[290px] w-full">
+          <main className="flex-1 mt-9 md:ml-[305px]">
             <Header />
             <CompletedTasks />
           </main>
