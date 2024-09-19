@@ -1,10 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-// import { getUser } from "../../../services/api-users";
+import { useParams, useLocation } from "react-router-dom";
 
 export const Header: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
+  const location = useLocation();
   const [name, setName] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+
+  const determineTitle = (path: string) => {
+    switch (path) {
+      case "/dashboard/":
+        return "Dashboard";
+      case "/usuarios/":
+        return "Usuários";
+      case "/clientes/":
+        return "Clientes";
+      case "/funcionarios/":
+        return "Funcionários";
+      case "/tarefas/":
+        return "Tarefas";
+      case "/finalizadas/":
+        return "Finalizadas";
+      case "/emAndamento/":
+        return "Em Andamento";
+      case "/cargos/":
+        return "Cargos";
+      default:
+        return "Painel Administrativo";
+    }
+  };
 
   async function getUser() {
     try {
@@ -13,7 +37,6 @@ export const Header: React.FC = () => {
         const response = await fetch(`/api/users/${id}`);
         const data = await response.json();
         const nome = data.nome;
-        console.log(data);
         setName(nome);
       }
     } catch (error) {
@@ -25,9 +48,13 @@ export const Header: React.FC = () => {
     getUser();
   }, [id]);
 
+  useEffect(() => {
+    setTitle(determineTitle(location.pathname));
+  }, [location.pathname]);
+
   return (
     <div className="flex flex-row h-14 py-14 justify-between items-center gap-5 w-full">
-      <h1 className="text-3xl font-bold">Monitoramento</h1>
+      <h1 className="text-3xl font-bold">{title}</h1>
       <div className="flex items-center">
         <h2 className="text-2xl font-semibold">Bem vindo, {name}!</h2>
       </div>
