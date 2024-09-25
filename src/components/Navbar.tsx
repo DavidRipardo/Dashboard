@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 
 import imgLogo from "/src/assets/logonavbar.png";
@@ -16,20 +16,23 @@ import { TfiAngleDoubleRight } from "react-icons/tfi";
 interface NavbarProps {
   filter: string;
   setFilter: (filter: string) => void;
+  isExpanded: boolean;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
 }
 
-export function Navbar({ setFilter }: NavbarProps) {
+export function Navbar({ setFilter, isExpanded, setExpanded }: NavbarProps) {
   useParams<{ id: string }>();
 
   const { logoutUser } = useContext(AuthContext);
 
-  // Estado para controlar se a navbar está expandida ou reduzida
-  const [isExpanded, setIsExpanded] = useState(false);
+  const handleSidebartoglle = () => {
+    setExpanded(!isExpanded);
+  };
 
   return (
     <aside
-      className={` my-2 ml-1 z-50 transition-all duration-300    ${
-        isExpanded ? "w-[16%]" : "w-16"
+      className={`fixed my-2 ml-1 z-50 transition-all duration-300    ${
+        isExpanded ? "w-48 sm:w-48  md:w-60 " : "w-16"
       }`}
     >
       <nav
@@ -37,7 +40,7 @@ export function Navbar({ setFilter }: NavbarProps) {
       >
         {/* Botão de expansão/redução */}
         <button
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={handleSidebartoglle}
           className="mb-4 self-end mx-4 text-white focus:outline-none"
         >
           {isExpanded ? (
@@ -49,7 +52,7 @@ export function Navbar({ setFilter }: NavbarProps) {
 
         {/* Logo e título */}
         <div
-          className={`flex items-center px-8 gap-2 mb-5 transition-all ${
+          className={`flex items-center px-2 md:px-8 gap-2 mb-5 transition-all ${
             isExpanded ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -205,7 +208,7 @@ export function Navbar({ setFilter }: NavbarProps) {
 
         <Link
           onClick={logoutUser}
-          className="flex items-center gap-3.5 mx-3 pl-3 w-68 p-1.5 text-base ml-1.5 mt-[16%] text-white rounded-lg hover:bg-lilac-500 hover:shadow-lg hover:transition ease-in-out duration-300"
+          className="flex items-center gap-3.5 mx-3 pl-3 w-68 p-1.5 text-base ml-1.5 mt-[70%] md:mt-[16%] sm:mt-[50%] text-white rounded-lg hover:bg-lilac-500 hover:shadow-lg hover:transition ease-in-out duration-300"
           to={""}
         >
           <img

@@ -200,7 +200,7 @@ export const Table: React.FC = () => {
           <span className="text-2xl pr-3 pb-1">+</span> Adicionar Usuário
         </Button>
       </Stack>
-      <table className="min-w-full table-auto divide-y divide-gray-200">
+      <table className="w-56 md:w-full table-auto divide-y divide-gray-200">
         <thead>
           <tr>
             <th className="px-4 py-2 text-left">
