@@ -11,7 +11,7 @@ namespace Models.api
         public required string Telefone { get; set; } = string.Empty;
         public required string CPF { get; set; } = string.Empty;
         public int CargoId { get; set; }
-        public required Cargo Cargo { get; set; } // Relacionamento com Cargo
+        public  required Cargo Cargo { get; set; } // Relacionamento com Cargo
         public int ClienteId { get; set; }
         public required Cliente Cliente { get; set; } // Relacionamento com Cliente
         public bool Status { get; set; } = true;

@@ -2,6 +2,7 @@
 using AutoMapper;
 using DTOs.api;
 using Models.api;
+using Data.api;
 
 namespace Mappings.api
 {
@@ -19,7 +20,15 @@ namespace Mappings.api
             // Mapeamento para cargos e funcionários relacionados
             CreateMap<Cargo, CargoDto>()
                 .ForMember(dest => dest.Funcionarios, opt => opt.MapFrom(src => src.Funcionarios));
+
+            // Ajuste no mapeamento de Cliente para ClienteDto
+            CreateMap<Cliente, ClienteDto>()
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status ? ClienteStatus.Ativo : ClienteStatus.Inativo));
+
+            // Ajuste no mapeamento de Funcionario para FuncionarioDto
+            CreateMap<Funcionario, FuncionarioDto>()
+           .ForMember(dest => dest.ClienteId, opt => opt.MapFrom(src => src.ClienteId != 0 ? src.ClienteId : (int?)null));
+
         }
     }
 }
-
